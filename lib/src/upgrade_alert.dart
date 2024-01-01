@@ -25,6 +25,7 @@ class UpgradeAlert extends StatefulWidget {
     this.onIgnore,
     this.onLater,
     this.onUpdate,
+    this.onPopDialog,
     this.shouldPopScope,
     this.showIgnore = true,
     this.showLater = true,
@@ -56,6 +57,9 @@ class UpgradeAlert extends StatefulWidget {
   /// Called when the update button is tapped or otherwise activated.
   /// Return false when the default behavior should not execute.
   final BoolCallback? onUpdate;
+
+  /// Called when the alert dialog is popped.
+  final Future Function(dynamic)? onPopDialog;
 
   /// Called when the user taps outside of the dialog and [canDismissDialog]
   /// is false. Also called when the back button is pressed. Return true for
@@ -267,7 +271,7 @@ class UpgradeAlertState extends State<UpgradeAlert> {
               messages,
             ));
       },
-    );
+    ).then((value) => widget.onPopDialog?.call(value));
   }
 
   /// Called when the user taps outside of the dialog and [canDismissDialog]
