@@ -59,7 +59,7 @@ class UpgradeAlert extends StatefulWidget {
   final BoolCallback? onUpdate;
 
   /// Called when the alert dialog is popped.
-  final Future Function(dynamic)? onPopDialog;
+  final void Function(dynamic)? onPopDialog;
 
   /// Called when the user taps outside of the dialog and [canDismissDialog]
   /// is false. Also called when the back button is pressed. Return true for
