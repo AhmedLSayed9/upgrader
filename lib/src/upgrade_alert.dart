@@ -20,6 +20,7 @@ class UpgradeAlert extends StatefulWidget {
     super.key,
     Upgrader? upgrader,
     this.canDismissDialog = false,
+    this.dialogKey,
     this.dialogStyle = UpgradeDialogStyle.material,
     this.onIgnore,
     this.onLater,
@@ -38,6 +39,9 @@ class UpgradeAlert extends StatefulWidget {
 
   /// Can alert dialog be dismissed on tap outside of the alert dialog. Not used by [UpgradeCard]. (default: false)
   final bool canDismissDialog;
+
+  /// The key of the alert dialog. It can be used to check whether the alert dialog is shown or not.
+  final Key? dialogKey;
 
   /// The upgrade dialog style. Used only on UpgradeAlert. (default: material)
   final UpgradeDialogStyle dialogStyle;
@@ -254,6 +258,7 @@ class UpgradeAlertState extends State<UpgradeAlert> {
         return WillPopScope(
             onWillPop: () async => onWillPop(),
             child: alertDialog(
+              widget.dialogKey,
               title ?? '',
               message,
               releaseNotes,
@@ -283,8 +288,15 @@ class UpgradeAlertState extends State<UpgradeAlert> {
     return false;
   }
 
-  Widget alertDialog(String title, String message, String? releaseNotes,
-      BuildContext context, bool cupertino, UpgraderMessages messages) {
+  Widget alertDialog(
+    Key? dialogKey,
+    String title,
+    String message,
+    String? releaseNotes,
+    BuildContext context,
+    bool cupertino,
+    UpgraderMessages messages,
+  ) {
     // If installed version is below minimum app version, or is a critical update,
     // disable ignore and later buttons.
     final isBlocked = _upgrader.blocked();
@@ -336,8 +348,17 @@ class UpgradeAlertState extends State<UpgradeAlert> {
 
     return cupertino
         ? CupertinoAlertDialog(
-            title: textTitle, content: content, actions: actions)
-        : AlertDialog(title: textTitle, content: content, actions: actions);
+            key: dialogKey,
+            title: textTitle,
+            content: content,
+            actions: actions,
+          )
+        : AlertDialog(
+            key: dialogKey,
+            title: textTitle,
+            content: content,
+            actions: actions,
+          );
   }
 
   Widget button(bool cupertino, String? text, BuildContext context,
