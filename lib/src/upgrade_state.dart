@@ -23,6 +23,7 @@ class UpgraderState {
     this.languageCodeOverride,
     this.messages,
     this.minAppVersion,
+    this.disableOptionalUpdates = false,
     this.packageInfo,
     required this.upgraderDevice,
     required this.upgraderOS,
@@ -61,6 +62,11 @@ class UpgraderState {
   /// will be forced to update to the current version. Overrides any minimum
   /// app version from UpgraderStore. Optional.
   final Version? minAppVersion;
+
+  /// If set to `true`, this flag will disable optional app updates for the current version.
+  /// When disabled, only mandatory updates (those below minimum app version) will be
+  /// prompted to the user. Defaults to `false`.
+  final bool disableOptionalUpdates;
 
   /// The app package metadata information.
   final PackageInfo? packageInfo;
