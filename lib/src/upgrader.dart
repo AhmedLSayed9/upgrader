@@ -299,7 +299,7 @@ class Upgrader with WidgetsBindingObserver {
     bool rv = true;
     if (state.debugDisplayAlways || (state.debugDisplayOnce && !_hasAlerted)) {
       rv = true;
-    } else if (!isUpdateAvailable()) {
+    } else if (!isUpdateAvailable() || state.disableOptionalUpdates) {
       rv = false;
     } else if (isBlocked) {
       rv = true;
